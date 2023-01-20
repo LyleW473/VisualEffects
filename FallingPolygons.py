@@ -49,7 +49,6 @@ class FallingPolygons:
             "polygon_surface": pygame.Surface((random_width * 2, random_height * 2)),
             "dimensions_list": [[random_width, 0], [random_width * 2, random_height], [random_width, random_height * 2], [0, random_height]],
             "drawing_position" : self.point_1,
-            "width_height": (random_width, random_height)
             }
 
         # Increment the number of polygons created
@@ -83,7 +82,7 @@ class FallingPolygons:
                 # Note: The destination is so that the center of the polygon is blitted at the mouse
                 self.surface.blit(
                     source = polygon_points_dict["polygon_surface"], 
-                    dest = (polygon_points_dict["drawing_position"][0] - (polygon_points_dict["width_height"][0] // 2), polygon_points_dict["drawing_position"][1] - (polygon_points_dict["width_height"][1] // 2)),  
+                    dest = (polygon_points_dict["drawing_position"][0] - (polygon_points_dict["polygon_surface"].get_width() // 2), polygon_points_dict["drawing_position"][1] - (polygon_points_dict["polygon_surface"].get_height() // 2)),  
                     special_flags = pygame.BLEND_RGB_ADD)
 
             # If the polygon has travelled the complete distance
