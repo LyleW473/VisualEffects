@@ -6,7 +6,7 @@ class AngledPolygons:
 
     def __init__(self, surface):
 
-        pygame.display.set_caption("FallingPolygons")
+        pygame.display.set_caption("AngledPolygons")
         self.surface = surface
 
         # Dictionary to hold all the polygons created
@@ -16,15 +16,18 @@ class AngledPolygons:
         self.polygons_created = 0
 
         # Colour palettes for the polygons
-        self.polygons_colour_palettes = {
-            "Ice": [(125, 229, 237), (129, 198, 232), (93, 167, 219), (88, 55, 208)],
-            "Fire": [(249, 7, 22), (255, 84, 3), (255, 202, 3), (255, 243, 35)],
-            "Fire2": [(238, 235, 221), (206, 18, 18), (129, 0, 0), (27, 23, 23)]
-            }
+        self.polygons_colour_palettes = [
+            [(125, 229, 237), (129, 198, 232), (93, 167, 219), (88, 55, 208)],
+            [(249, 7, 22), (255, 84, 3), (255, 202, 3), (255, 243, 35)],
+            [(238, 235, 221), (206, 18, 18), (129, 0, 0), (27, 23, 23)],
+            [(62, 193, 211), (246, 247, 215), (255, 154, 0), (255, 22, 93)],
+            [(7, 26, 82), (8, 105, 114), (23, 185, 120), (167, 255, 131)]
+            ]
+        # Chosen colour palette
+        self.chosen_colour_palette = len(self.polygons_colour_palettes) - 1
+        # Attribute set to True whenever the user wants to switch the colour palette
+        self.switch_colour_palette = False
 
-        self.chosen_colour_palette = "Fire2"
-
-        
     def create_polygons(self, origin_point = [500, 200]):  
 
         # ------------------------------------------------------------------
@@ -170,10 +173,32 @@ class AngledPolygons:
         self.polygons_created += 1
 
     def draw(self, delta_time):     
-
+        
+        # If the left mouse button is pressed
         if pygame.mouse.get_pressed()[0]:
+            # For i in range(0, x) to create x polygons per click
             for i in range(0, 5):
+                # Create polygons at the mouse position
                 self.create_polygons([pygame.mouse.get_pos()[0], pygame.mouse.get_pos()[1]])
+        
+        # If the "space" key is pressed
+        if pygame.key.get_pressed()[pygame.K_SPACE]:
+            # Set the switch colour palette attribute to True
+            self.switch_colour_palette = True
+
+        # If the "space" key is released and the user has requested to switch the colour palette
+        if pygame.key.get_pressed()[pygame.K_SPACE] == False and self.switch_colour_palette == True:
+            # If the chosen colour palette is the last one in the colour palettes list
+            if self.chosen_colour_palette == (len(self.polygons_colour_palettes) - 1):
+                # Go back to the first colour palette in the list
+                self.chosen_colour_palette = 0
+            # If the chosen colour palette is not the last one in the colour palettes list 
+            else:
+                # Go to the next colour palette
+                self.chosen_colour_palette += 1
+
+            # Set the switch colour palette attribute to False
+            self.switch_colour_palette = False
 
         # Loop through the dictionary of each polygon
         for polygon_points_dict in self.polygons_dict.copy().values():
