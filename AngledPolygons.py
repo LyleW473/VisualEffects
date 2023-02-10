@@ -37,7 +37,7 @@ class AngledPolygons:
         polygon_hypot = 100
 
         # The angle that the polygon points towards from the x axis
-        angle = random.randint(0, 360) # Random angle between 0 and 360 (inclusive)
+        angle = math.radians(random.randint(0, 360)) # Random angle between 0 and 360 (inclusive)
 
         # The random angle change for each polygon 
         point_angle_change = 15
